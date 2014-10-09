@@ -1,0 +1,6 @@
+tags
+.test
+.vagrant
+.vendor
+
+build/
