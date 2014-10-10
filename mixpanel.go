@@ -145,6 +145,7 @@ func (m *Mixpanel) get(url string, data map[string]interface{}) (string, error) 
 	if err != nil {
 		return "", err
 	}
+	defer res.Body.Close()
 
 	responseBody, err := ioutil.ReadAll(res.Body)
 
