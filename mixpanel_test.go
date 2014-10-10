@@ -114,14 +114,14 @@ var _ = Describe("mixpanel", func() {
 				verifyRequestResponse(server,
 					"GET",
 					`\A\/engage\/\?data=.*?\z`,
-					`{"$token":"token","$distinct_id":"1","$set":{"full_name": "Mclovin", "Company": "Acme Organ Donation"}}`,
+					`{"$token":"token","$distinct_id":"1","$ip":"192.168.16.43","$set":{"full_name": "Mclovin", "Company": "Acme Organ Donation"}}`,
 					"1",
 				)
 			})
 
 			It("should send an base64 encoded version of the user profile along with the corresponding properties", func() {
 				m := mixpanel.NewMixpanelClient("token", baseURL)
-				err := m.CreateProfile("1", map[string]interface{}{"full_name": "Mclovin", "Company": "Acme Organ Donation"})
+				err := m.CreateProfile("1", "192.168.16.43", map[string]interface{}{"full_name": "Mclovin", "Company": "Acme Organ Donation"})
 				Expect(err).To(BeNil())
 				Expect(server.ReceivedRequests()).Should(HaveLen(1))
 			})
@@ -132,14 +132,14 @@ var _ = Describe("mixpanel", func() {
 				verifyRequestResponse(server,
 					"GET",
 					`\A\/engage\/\?data=.*?\z`,
-					`{"$token":"token","$distinct_id":"1","$set":{"full_name": "Mclovin", "Company": "Acme Organ Donation"}}`,
+					`{"$token":"token","$distinct_id":"1","$ip":"192.168.16.43","$set":{"full_name": "Mclovin", "Company": "Acme Organ Donation"}}`,
 					"error",
 				)
 			})
 
 			It("should send an base64 encoded version of the event along with the corresponding properties", func() {
 				m := mixpanel.NewMixpanelClient("token", baseURL)
-				err := m.CreateProfile("1", map[string]interface{}{"full_name": "Mclovin", "Company": "Acme Organ Donation"})
+				err := m.CreateProfile("1", "192.168.16.43", map[string]interface{}{"full_name": "Mclovin", "Company": "Acme Organ Donation"})
 				Expect(err).To(Equal(mixpanel.ErrUnexpectedEngageResponse))
 				Expect(server.ReceivedRequests()).Should(HaveLen(1))
 			})
