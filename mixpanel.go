@@ -19,8 +19,9 @@ var (
 )
 
 type Mixpanel struct {
-	Token   string
-	BaseURL string
+	Token             string
+	BaseURL           string
+	OverrideIPAddress string
 }
 
 // NewMixpanelClient returns a Mixpanel struct with which you can perform other Mixpanel operations
@@ -119,6 +120,9 @@ func (m *Mixpanel) engage(distinctID string, op string, properties interface{}) 
 
 	data["$token"] = m.Token
 	data["$distinct_id"] = distinctID
+	if len(m.OverrideIPAddress) > 0 {
+		data["$ip"] = m.OverrideIPAddress
+	}
 	data[op] = properties
 
 	response, err := m.get(fmt.Sprintf("%s/engage/", m.BaseURL), data)
